@@ -12,7 +12,7 @@ namespace UnitTestDiffingAPI
     [TestClass]
     public class UnitTest1
     {
-        private int vId = 3;
+        private int vId = 2;
 
         [TestMethod]
         public void TestMethod1() //Test GET /v1/diff/1 with left and right have not data
@@ -53,9 +53,8 @@ namespace UnitTestDiffingAPI
         {
             var controller = new DiffController();
             var result = controller.Get(vId) as OkNegotiatedContentResult<DiffResult>;
-            DiffResult diffResult = new DiffResult();
-            diffResult.diffResultType = "Equals";
-            Assert.AreEqual(JsonConvert.SerializeObject(result.Content), JsonConvert.SerializeObject(diffResult));
+           
+            Assert.AreEqual(JsonConvert.SerializeObject(result.Content), JsonConvert.SerializeObject(new DiffResult { diffResultType = "Equals" }));
         }
 
         [TestMethod]
@@ -71,9 +70,9 @@ namespace UnitTestDiffingAPI
         public void TestMethod7() //Test GET /v1/diff/1 with left and right have data
         {
             var controller = new DiffController();
-            var result = controller.Get(vId) as OkNegotiatedContentResult<DiffResult>;
+            var result = controller.Get(vId) as OkNegotiatedContentResult<DiffResultWithDiffs>;
 
-            DiffResult diffResult = new DiffResult();
+            DiffResultWithDiffs diffResult = new DiffResultWithDiffs();
             diffResult.diffResultType = "ContentDoNotMatch";
             List<DiffPart> diffs = new List<DiffPart>();
             DiffPart diffPart1 = new DiffPart();
@@ -116,4 +115,6 @@ namespace UnitTestDiffingAPI
             Assert.IsTrue(result is BadRequestResult);
         }
     }
+
+
 }

@@ -20,11 +20,16 @@ namespace DiffingAPI.Models
         public int Offset { get; set; }
         public int Length { get; set; }
     }
-    public class DiffResult{
+    public class DiffResultWithDiffs{
         public string diffResultType { get; set; }
         public List<DiffPart> diffs { get; set; }
     }
-    
 
-    
+    public class DiffResult
+    {
+        public string diffResultType { get; set; }
+    }
+
+
+
 }

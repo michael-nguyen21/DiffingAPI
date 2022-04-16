@@ -24,12 +24,10 @@ namespace DiffingAPI.Controllers
                 //If left and right have data, do comparison
                 if (diff.Left != null && diff.Right != null) 
                 {
-                    DiffResult diffResult = new DiffResult();
                     //Left equal Right, return Ok and Equals
                     if (diff.Left == diff.Right) 
                     {
-                        diffResult.diffResultType = "Equals";
-                        return Ok(diffResult);
+                        return Ok(new DiffResult { diffResultType = "Equals" });
                     }
                     
                     // Left != Right, convert to bytes and do comparison
@@ -64,6 +62,7 @@ namespace DiffingAPI.Controllers
 
                                 }
                             }
+                            DiffResultWithDiffs diffResult = new DiffResultWithDiffs();
                             diffResult.diffResultType = "ContentDoNotMatch";
                             diffResult.diffs = diffs;
                             return Ok(diffResult);
@@ -72,8 +71,7 @@ namespace DiffingAPI.Controllers
                         // if their lengths are not equal, return OK and SizeDoNotMatch
                         else
                         {
-                            diffResult.diffResultType = "SizeDoNotMatch";
-                            return Ok(diffResult);
+                            return Ok(new DiffResult { diffResultType = "SizeDoNotMatch" });
                         }
                     }
                 }
